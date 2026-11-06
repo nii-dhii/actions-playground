@@ -1,0 +1,18 @@
+
+# A CALLER workflow: it contains no steps of its own. It calls checks.yml.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read               # the called workflow can keep or reduce this, never add to it
+
+jobs:
+  checks:                      # this job id appears in the check name on pull requests
+    uses: ./.github/workflows/checks.yml     # NEW: "run that workflow here" (a path inside this repository)
+    with:                      # NEW: the inputs we pass to it
+      python-version: "3.12"
